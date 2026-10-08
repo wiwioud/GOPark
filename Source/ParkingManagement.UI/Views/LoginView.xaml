@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="ParkingManagement.UI.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ParkingManagement.UI.ViewModels"
+             d:DataContext="{d:DesignInstance vm:LoginViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="LoginFieldBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="#E2E8F0"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Background" Value="#F8FAFC"/>
+            <Setter Property="Padding" Value="4,0"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter Property="BorderBrush" Value="#5A45FF"/>
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="LoginTextBox" TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#0F172A"/>
+            <Setter Property="CaretBrush" Value="#5A45FF"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="LoginPasswordBox" TargetType="PasswordBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="8,14"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#0F172A"/>
+            <Setter Property="CaretBrush" Value="#5A45FF"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.15*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Brand panel -->
+        <Grid Grid.Column="0" ClipToBounds="True">
+            <Rectangle>
+                <Rectangle.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#0B1224" Offset="0"/>
+                        <GradientStop Color="#151B3B" Offset="0.55"/>
+                        <GradientStop Color="#2A1F73" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Ellipse Width="520" Height="520" HorizontalAlignment="Right" VerticalAlignment="Top"
+                     Margin="0,-180,-160,0" Opacity="0.35">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#7C3AED" Offset="0"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse Width="420" Height="420" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                     Margin="-140,0,0,-120" Opacity="0.28">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#5A45FF" Offset="0"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Ellipse Width="220" Height="220" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                     Margin="0,0,80,80" Opacity="0.18">
+                <Ellipse.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#38BDF8" Offset="0"/>
+                        <GradientStop Color="Transparent" Offset="1"/>
+                    </RadialGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+
+            <StackPanel VerticalAlignment="Center" Margin="72,0,56,0" MaxWidth="460" HorizontalAlignment="Left">
+                <Border Width="72" Height="72" CornerRadius="18" HorizontalAlignment="Left" Margin="0,0,0,28">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#7C6BFF" Offset="0"/>
+                            <GradientStop Color="#5A45FF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.Effect>
+                        <DropShadowEffect Color="#5A45FF" BlurRadius="24" Opacity="0.55" ShadowDepth="0"/>
+                    </Border.Effect>
+                    <TextBlock Text="P" FontSize="36" FontWeight="Black" Foreground="White"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Segoe UI"/>
+                </Border>
+
+                <TextBlock Text="GOPark" FontSize="42" FontWeight="Black" Foreground="White" FontFamily="Segoe UI"/>
+                <TextBlock Text="Parkraum-Management" FontSize="16" Foreground="#A5B4FC" Margin="0,6,0,28"/>
+
+                <TextBlock Text="Steuern Sie Einfahrt, Ausfahrt und Auslastung an einem Ort — übersichtlich, schnell und nachvollziehbar."
+                           FontSize="15" Foreground="#CBD5E1" TextWrapping="Wrap" LineHeight="24" Margin="0,0,0,36"/>
+
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                        <Border Width="36" Height="36" CornerRadius="10" Background="#1E293B" Margin="0,0,14,0">
+                            <TextBlock Text="01" FontSize="11" FontWeight="Bold" Foreground="#A5B4FC"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Live-Übersicht" FontWeight="SemiBold" Foreground="White" FontSize="14"/>
+                            <TextBlock Text="Freie, belegte und reservierte Plätze" Foreground="#94A3B8" FontSize="12"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                        <Border Width="36" Height="36" CornerRadius="10" Background="#1E293B" Margin="0,0,14,0">
+                            <TextBlock Text="02" FontSize="11" FontWeight="Bold" Foreground="#A5B4FC"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Einfahrt &amp; Ausfahrt" FontWeight="SemiBold" Foreground="White" FontSize="14"/>
+                            <TextBlock Text="Parkvorgänge in wenigen Schritten erfassen" Foreground="#94A3B8" FontSize="12"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="36" Height="36" CornerRadius="10" Background="#1E293B" Margin="0,0,14,0">
+                            <TextBlock Text="03" FontSize="11" FontWeight="Bold" Foreground="#A5B4FC"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="Berichte &amp; Audit" FontWeight="SemiBold" Foreground="White" FontSize="14"/>
+                            <TextBlock Text="Umsatz, Historie und Nachvollziehbarkeit" Foreground="#94A3B8" FontSize="12"/>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Text="GOPark · Version 1.0" FontSize="12" Foreground="#64748B"
+                       HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="72,0,0,32"/>
+        </Grid>
+
+        <!-- Form panel -->
+        <Grid Grid.Column="1" Background="#F4F6FB">
+            <Border Width="420" MaxWidth="420" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Background="White" CornerRadius="20" Padding="40,36" Margin="32">
+                <Border.Effect>
+                    <DropShadowEffect Color="#0F172A" BlurRadius="40" Opacity="0.10" ShadowDepth="8" Direction="270"/>
+                </Border.Effect>
+                <StackPanel>
+
+                    <TextBlock Text="Willkommen zurück" FontSize="26" FontWeight="Bold"
+                               Foreground="#0F172A" FontFamily="Segoe UI"/>
+                    <TextBlock Text="Melden Sie sich an, um GOPark zu verwalten."
+                               FontSize="13" Foreground="#64748B" Margin="0,8,0,28"/>
+
+                    <Border Background="#FEF2F2" CornerRadius="10" Padding="14,10" Margin="0,0,0,18"
+                            Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}">
+                        <TextBlock Text="{Binding ErrorMessage}" Foreground="#DC2626" FontSize="13"
+                                   TextWrapping="Wrap"/>
+                    </Border>
+
+                    <TextBlock Text="Benutzername" FontSize="12" FontWeight="SemiBold"
+                               Foreground="#334155" Margin="0,0,0,8"/>
+                    <Border Style="{StaticResource LoginFieldBorder}" Margin="0,0,0,18">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Path Grid.Column="0" Width="16" Height="16" Stretch="Uniform"
+                                  Fill="#64748B" Margin="12,0,2,0" VerticalAlignment="Center"
+                                  Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                            <TextBox Grid.Column="1" x:Name="UsernameBox"
+                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource LoginTextBox}"
+                                     KeyDown="TextBox_KeyDown"/>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="Passwort" FontSize="12" FontWeight="SemiBold"
+                               Foreground="#334155" Margin="0,0,0,8"/>
+                    <Border Style="{StaticResource LoginFieldBorder}" Margin="0,0,0,28">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Path Grid.Column="0" Width="16" Height="16" Stretch="Uniform"
+                                  Fill="#64748B" Margin="12,0,2,0" VerticalAlignment="Center"
+                                  Data="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+                            <PasswordBox Grid.Column="1" x:Name="PasswordBox"
+                                         Style="{StaticResource LoginPasswordBox}"
+                                         PasswordChanged="PasswordBox_PasswordChanged"
+                                         KeyDown="PasswordBox_KeyDown"/>
+                        </Grid>
+                    </Border>
+
+                    <Button Command="{Binding LoginCommand}" Height="52" FontSize="15"
+                            FontWeight="SemiBold" Cursor="Hand" BorderThickness="0">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#5A45FF"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="#5A45FF" BlurRadius="16" Opacity="0.35" ShadowDepth="2"/>
+                                                </Border.Effect>
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#4A35DF"/>
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter Property="Background" Value="#3D2BC0"/>
+                                                </Trigger>
+                                                <Trigger Property="IsEnabled" Value="False">
+                                                    <Setter Property="Opacity" Value="0.65"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <TextBlock>
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Anmelden"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoggingIn}" Value="True">
+                                            <Setter Property="Text" Value="Anmeldung läuft..."/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Button>
+
+                    <TextBlock Text="Zugriff nur für autorisierte Mitarbeiter"
+                               FontSize="11" Foreground="#94A3B8" HorizontalAlignment="Center"
+                               Margin="0,22,0,0"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

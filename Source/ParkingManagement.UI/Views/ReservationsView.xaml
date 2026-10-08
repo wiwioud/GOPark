@@ -1,0 +1,281 @@
+﻿<UserControl x:Class="ParkingManagement.UI.Views.ReservationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ParkingManagement.UI.ViewModels"
+             d:DataContext="{d:DesignInstance vm:ReservationsViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="{StaticResource BackgroundBrush}">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- =====================================================
+             HEADER
+             ===================================================== -->
+
+        <Border Grid.Row="0"
+                Background="White"
+                BorderBrush="#E2E8F0"
+                BorderThickness="0,0,0,1"
+                Padding="24,16">
+
+            <StackPanel>
+
+                <TextBlock Text="Reservierungen"
+                           FontSize="20"
+                           FontWeight="SemiBold"
+                           Foreground="#0F172A"/>
+
+                <TextBlock Text="Verwalten Sie alle Parkplatzreservierungen."
+                           FontSize="13"
+                           Foreground="#64748B"
+                           Margin="0,4,0,0"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- =====================================================
+             CONTENT
+             ===================================================== -->
+
+        <Grid Grid.Row="1"
+              Margin="24">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- =================================================
+                 SEARCH + FILTER + ADD
+                 ================================================= -->
+
+            <Grid Grid.Row="0"
+                  Margin="0,0,0,16">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Search -->
+
+                <TextBox Grid.Column="0"
+                         Width="250"
+                         Text="{Binding SearchText,
+                                        UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource SaaSInput}"
+                         Tag="Suchen..."/>
+
+                <!-- Status Filters -->
+
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            Margin="16,0,0,0"
+                            VerticalAlignment="Center">
+
+                    <RadioButton Content="Alle"
+                                 Style="{StaticResource SaaSFilterButton}"
+                                 IsChecked="True"
+                                 Command="{Binding FilterCommand}"
+                                 CommandParameter="Alle"/>
+
+                    <RadioButton Content="Geplant"
+                                 Style="{StaticResource SaaSFilterButton}"
+                                 Command="{Binding FilterCommand}"
+                                 CommandParameter="Geplant"/>
+
+                    <RadioButton Content="Aktiv"
+                                 Style="{StaticResource SaaSFilterButton}"
+                                 Command="{Binding FilterCommand}"
+                                 CommandParameter="Aktiv"/>
+
+                    <RadioButton Content="Abgelaufen"
+                                 Style="{StaticResource SaaSFilterButton}"
+                                 Command="{Binding FilterCommand}"
+                                 CommandParameter="Abgelaufen"/>
+
+                    <RadioButton Content="Storniert"
+                                 Style="{StaticResource SaaSFilterButton}"
+                                 Command="{Binding FilterCommand}"
+                                 CommandParameter="Storniert"/>
+
+                </StackPanel>
+
+                <!-- Add Reservation -->
+
+                <Button Grid.Column="2"
+                        Content="+ Reservierung"
+                        Command="{Binding AddReservationCommand}"
+                        Style="{StaticResource PrimaryButton}"
+                        Width="140"/>
+
+            </Grid>
+
+            <!-- =================================================
+                 TABLE
+                 ================================================= -->
+
+            <Border Grid.Row="1"
+                    Background="White"
+                    CornerRadius="8"
+                    BorderBrush="#E2E8F0"
+                    BorderThickness="1">
+
+                <Border.Effect>
+
+                    <DropShadowEffect Color="#0F172A"
+                                      BlurRadius="10"
+                                      Opacity="0.05"
+                                      ShadowDepth="2"/>
+
+                </Border.Effect>
+
+                <Grid>
+
+                    <DataGrid ItemsSource="{Binding Reservations}"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              Style="{StaticResource SaaSDataGrid}"
+                              RowStyle="{StaticResource SaaSDataGridRow}"
+                              ColumnHeaderStyle="{StaticResource SaaSDataGridColumnHeader}"
+                              CellStyle="{StaticResource SaaSDataGridCell}">
+
+                        <DataGrid.Columns>
+
+                            <!-- Datum -->
+
+                            <DataGridTextColumn Header="Datum"
+                                                Binding="{Binding ReservationDate,
+                                                                  StringFormat='dd.MM.yyyy'}"
+                                                Width="100"/>
+
+                            <!-- Kennzeichen -->
+
+                            <DataGridTextColumn Header="Kennzeichen"
+                                                Binding="{Binding Vehicle.LicensePlate}"
+                                                Width="120"/>
+
+                            <!-- Parkplatz -->
+
+                            <DataGridTextColumn Header="Parkplatz"
+                                                Binding="{Binding ParkingSpace.SpaceNumber}"
+                                                Width="100"/>
+
+                            <!-- Beginn -->
+
+                            <DataGridTextColumn Header="Beginn"
+                                                Binding="{Binding StartTime}"
+                                                Width="100"/>
+
+                            <!-- Ende -->
+
+                            <DataGridTextColumn Header="Ende"
+                                                Binding="{Binding EndTime}"
+                                                Width="100"/>
+
+                            <!-- Status -->
+
+                            <DataGridTextColumn Header="Status"
+                                                Binding="{Binding Status,
+                                                                  Converter={StaticResource StatusToGermanConverter}}"
+                                                Width="110"/>
+
+                            <!-- =================================================
+                                 ACTION
+                                 ================================================= -->
+
+                            <DataGridTemplateColumn Header="Aktion"
+                                                    Width="130">
+
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Button Content="Stornieren"
+                                                Width="105"
+                                                Height="34"
+                                                Command="{Binding DataContext.CancelReservationCommand,
+                                                                  RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                CommandParameter="{Binding}">
+
+                                            <Button.Style>
+
+                                                <Style TargetType="Button"
+                                                       BasedOn="{StaticResource OutlineButton}">
+
+                                                    <!--
+                                                    Standardmäßig deaktiviert.
+                                                    Nur Planned und Active
+                                                    dürfen storniert werden.
+                                                    -->
+
+                                                    <Setter Property="IsEnabled"
+                                                            Value="False"/>
+
+                                                    <Setter Property="Opacity"
+                                                            Value="0.45"/>
+
+                                                    <Style.Triggers>
+
+                                                        <!-- Geplante Reservierung -->
+
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Planned">
+
+                                                            <Setter Property="IsEnabled"
+                                                                    Value="True"/>
+
+                                                            <Setter Property="Opacity"
+                                                                    Value="1"/>
+
+                                                        </DataTrigger>
+
+                                                        <!-- Aktive Reservierung -->
+
+                                                        <DataTrigger Binding="{Binding Status}"
+                                                                     Value="Active">
+
+                                                            <Setter Property="IsEnabled"
+                                                                    Value="True"/>
+
+                                                            <Setter Property="Opacity"
+                                                                    Value="1"/>
+
+                                                        </DataTrigger>
+
+                                                    </Style.Triggers>
+
+                                                </Style>
+
+                                            </Button.Style>
+
+                                        </Button>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
+
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="ParkingManagement.UI.Views.VehiclesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ParkingManagement.UI.ViewModels"
+             d:DataContext="{d:DesignInstance vm:VehiclesViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="{StaticResource BackgroundBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1" Padding="24,16">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Text="Fahrzeuge" FontSize="20" FontWeight="SemiBold" Foreground="#0F172A"/>
+                    <TextBlock Text="Verwalten Sie registrierte Fahrzeuge." FontSize="13" Foreground="#64748B" Margin="0,4,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Content -->
+        <Grid Grid.Row="1" Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" Margin="0,0,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBox Width="250" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Tag="Fahrzeug suchen..."/>
+                    <Button Content="Suchen" Command="{Binding SearchCommand}" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0"/>
+                </StackPanel>
+                <Button Grid.Column="2" Content="+ Fahrzeug" Command="{Binding AddVehicleCommand}" Style="{StaticResource PrimaryButton}" Width="120"/>
+            </Grid>
+
+            <Border Grid.Row="1" Background="White" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1">
+                <Border.Effect>
+                    <DropShadowEffect Color="#0F172A" BlurRadius="10" Opacity="0.05" ShadowDepth="2"/>
+                </Border.Effect>
+                <Grid>
+                    <DataGrid ItemsSource="{Binding Vehicles}" AutoGenerateColumns="False" IsReadOnly="True" 
+                              Style="{StaticResource SaaSDataGrid}" RowStyle="{StaticResource SaaSDataGridRow}"
+                              ColumnHeaderStyle="{StaticResource SaaSDataGridColumnHeader}" CellStyle="{StaticResource SaaSDataGridCell}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Kennzeichen" Binding="{Binding LicensePlate}" Width="150"/>
+                                                        <DataGridTextColumn Header="Marke" Binding="{Binding Make}" Width="150"/>
+                            <DataGridTextColumn Header="Modell" Binding="{Binding Model}" Width="150"/>
+                            <DataGridTextColumn Header="Besitzer" Binding="{Binding OwnerName}" Width="150"/>
+                            <DataGridTemplateColumn Header="Aktionen" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Bearbeiten" Command="{Binding DataContext.EditVehicleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Style="{StaticResource SecondaryButton}" Padding="8,4" FontSize="12"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
+
+
+
+

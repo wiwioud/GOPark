@@ -1,0 +1,47 @@
+﻿<Window x:Class="ParkingManagement.UI.Views.VehicleEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Fahrzeug" Height="600" Width="450" WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BackgroundBrush}">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Fahrzeug erfassen" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,20"/>
+        
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="Kennzeichen *" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding LicensePlate, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="Marke" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding Make, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="Modell" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding Model, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="Farbe" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding Color, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="Besitzer" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding OwnerName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="Telefon" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding OwnerPhone, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="Notizen" Foreground="#475569" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SaaSInput}" Height="60" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,12"/>
+                
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" Margin="0,0,0,12" Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Abbrechen" Command="{Binding CancelCommand}" Style="{StaticResource SecondaryButton}" Width="100" Margin="0,0,12,0"/>
+            <Button Content="Fahrzeug speichern" Command="{Binding SaveCommand}" Style="{StaticResource PrimaryButton}" Width="150"/>
+        </StackPanel>
+    </Grid>
+</Window>

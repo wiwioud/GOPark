@@ -1,0 +1,52 @@
+﻿<Window x:Class="ParkingManagement.UI.Views.ParkingSpaceEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Parkplatz bearbeiten" Width="440" Height="400"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC">
+    <Grid Margin="28">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Grid.Row="0" Text="{Binding Title}" FontSize="18" FontWeight="SemiBold"
+                   Foreground="#0F172A" Margin="0,0,0,20"/>
+
+        <!-- Fields -->
+        <StackPanel Grid.Row="1">
+
+            <TextBlock Text="Platznummer *" Foreground="#64748B" FontSize="13" Margin="0,0,0,4"/>
+            <TextBox Text="{Binding SpaceNumber, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource SaaSInput}" Margin="0,0,0,14"/>
+
+            <TextBlock Text="Zone" Foreground="#64748B" FontSize="13" Margin="0,0,0,4"/>
+            <TextBox Text="{Binding Zone, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource SaaSInput}" Tag="z.B. A, B, C" Margin="0,0,0,14"/>
+
+            <TextBlock Text="Typ" Foreground="#64748B" FontSize="13" Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding TypeOptions}"
+                      SelectedItem="{Binding SelectedType, Mode=TwoWay}"
+                      Style="{StaticResource SaaSComboBox}" Margin="0,0,0,14"/>
+
+            <TextBlock Text="Status" Foreground="#64748B" FontSize="13" Margin="0,0,0,4"/>
+            <ComboBox ItemsSource="{Binding StatusOptions}"
+                      SelectedItem="{Binding SelectedDisplayStatus, Mode=TwoWay}"
+                      Style="{StaticResource SaaSComboBox}" Margin="0,0,0,4"/>
+
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" FontSize="12"
+                       Margin="0,10,0,0" TextWrapping="Wrap"
+                       Visibility="{Binding HasError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Abbrechen" Command="{Binding CancelCommand}"
+                    Style="{StaticResource SecondaryButton}" Margin="0,0,10,0"/>
+            <Button Content="Speichern" Command="{Binding SaveCommand}"
+                    Style="{StaticResource PrimaryButton}" Width="120"/>
+        </StackPanel>
+    </Grid>
+</Window>

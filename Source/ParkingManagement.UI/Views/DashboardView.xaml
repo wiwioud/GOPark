@@ -1,0 +1,158 @@
+﻿<UserControl x:Class="ParkingManagement.UI.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ParkingManagement.UI.ViewModels"
+             d:DataContext="{d:DesignInstance vm:DashboardViewModel}"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="{StaticResource BackgroundBrush}">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- KPI Cards -->
+            <UniformGrid Grid.Row="0" Columns="3" Rows="2" Margin="0,0,0,24">
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,16,16">
+                    <StackPanel>
+                        <TextBlock Text="Gesamtplätze" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="{Binding TotalSpaces}" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,16,16">
+                    <StackPanel>
+                        <TextBlock Text="Freie Plätze" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="{Binding FreeSpaces}" FontSize="32" FontWeight="Bold" Foreground="#10B981"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                    <StackPanel>
+                        <TextBlock Text="Belegte Plätze" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="{Binding OccupiedSpaces}" FontSize="32" FontWeight="Bold" Foreground="#EF4444"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,16,0">
+                    <StackPanel>
+                        <TextBlock Text="Geplante Reservierungen" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="{Binding ReservedSpaces}" FontSize="32" FontWeight="Bold" Foreground="#F59E0B"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,16,0">
+                    <StackPanel>
+                        <TextBlock Text="Aktive Parkvorgänge" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="{Binding ActiveSessions}" FontSize="32" FontWeight="Bold" Foreground="#3B82F6"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource CardStyle}" Margin="0,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Umsatz heute" Style="{StaticResource LabelStyle}"/>
+                        <TextBlock Text="{Binding TodayRevenue, StringFormat='{}{0:N2} €'}" FontSize="32" FontWeight="Bold" Foreground="#10B981"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+
+            <!-- Occupancy and Quick Actions -->
+            <Grid Grid.Row="1" Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="0,0,16,0">
+                    <StackPanel>
+                        <TextBlock Text="Parkplatzauslastung" Style="{StaticResource SubHeaderStyle}" Margin="0,0,0,16"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding OccupancyText}" FontSize="15" Foreground="#475569" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding OccupancyPercentageText}" FontSize="20" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding OccupancyPercentage, Mode=OneWay}" Height="12" Margin="0,12,0,0" Foreground="{StaticResource PrimaryBrush}" Background="#E2E8F0" BorderThickness="0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Schnellaktionen" Style="{StaticResource SubHeaderStyle}" Margin="0,0,0,16"/>
+                        <Button Content="Einfahrt erfassen" Command="{Binding GoToEntryCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,0,8"/>
+                        <Button Content="Ausfahrt erfassen" Command="{Binding GoToExitCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,0,8"/>
+                        <Button Content="Reservierung erstellen" Command="{Binding CreateReservationCommand}" Style="{StaticResource SecondaryButton}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Spaces Overview and Activity -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource CardStyle}" Margin="0,0,16,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="0,0,0,16">
+                            <TextBlock Text="Parkplatzübersicht" Style="{StaticResource SubHeaderStyle}" VerticalAlignment="Center"/>
+                            <Button Content="Alle anzeigen" Command="{Binding GoToSpacesCommand}" HorizontalAlignment="Right" Background="Transparent" Foreground="{StaticResource PrimaryBrush}" BorderThickness="0" Cursor="Hand" FontWeight="SemiBold"/>
+                        </Grid>
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding SpacesOverview}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{Binding StatusBackground}" BorderBrush="{Binding StatusColor}" BorderThickness="1" CornerRadius="6" Padding="8,8" Margin="0,0,12,12" Width="130">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Space.SpaceNumber}" FontWeight="Bold" FontSize="16" Foreground="#0F172A" HorizontalAlignment="Center"/>
+                                            <Border Background="{Binding StatusColor}" CornerRadius="4" Padding="6,2" HorizontalAlignment="Center" Margin="0,4,0,0">
+                                                <TextBlock Text="{Binding StatusText}" FontSize="11" FontWeight="SemiBold" Foreground="White"/>
+                                            </Border>
+                                            <TextBlock Text="{Binding OccupantText}" FontSize="12" FontWeight="SemiBold" Foreground="#334155" HorizontalAlignment="Center" Margin="0,4,0,0" 
+                                                       Visibility="{Binding HasOccupant, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                            <TextBlock Text="{Binding FutureReservationText}" FontSize="11" Foreground="#EA580C" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,4,0,0" TextWrapping="Wrap" TextAlignment="Center"
+                                                       Visibility="{Binding HasFutureReservation, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Letzte Aktivitäten" Style="{StaticResource SubHeaderStyle}" Margin="0,0,0,16"/>
+                        <Grid Grid.Row="1">
+                            <TextBlock Text="Noch keine Aktivitäten vorhanden." Foreground="#94A3B8" FontSize="13" FontStyle="Italic" 
+                                       Visibility="{Binding HasNoActivities, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            <ItemsControl ItemsSource="{Binding RecentActivities}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" FontSize="13" Foreground="#475569" Margin="0,0,0,12" FontFamily="Consolas" TextWrapping="Wrap"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
+
